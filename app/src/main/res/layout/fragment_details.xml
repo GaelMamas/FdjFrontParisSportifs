@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="detailspresenter"
+            type="com.villejuif.fdjfrontparissportifs.details.DetailsPresenter" />
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image_team_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:layout_marginBottom="8dp"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/team_banner_content_description"
+                    android:scaleType="centerCrop"
+                    android:src="@{detailspresenter.team.strTeamBanner}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_photo_placeholder" />
+
+                <TextView
+                    android:id="@+id/text_country"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@{detailspresenter.team.strCountry}"
+                    app:layout_constraintStart_toStartOf="@id/image_team_banner"
+                    app:layout_constraintTop_toBottomOf="@id/image_team_banner"
+                    tools:hint="France" />
+
+                <TextView
+                    android:id="@+id/text_championship"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:textStyle="bold"
+                    android:text="@{detailspresenter.team.strLeague}"
+                    app:layout_constraintStart_toStartOf="@id/image_team_banner"
+                    app:layout_constraintTop_toBottomOf="@id/text_country"
+                    tools:text="French Lighe 1" />
+
+                <TextView
+                    android:id="@+id/text_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@{detailspresenter.team.strDescriptionEN}"
+                    app:layout_constraintStart_toStartOf="@id/image_team_banner"
+                    app:layout_constraintTop_toBottomOf="@id/text_championship"
+                    tools:text="Le connaître Lui, la puissance de Sa résurrection, la communion de ses souffrances et étant rendus conformes à sa mort." />
+
+
+            </LinearLayout>
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -3,7 +3,7 @@ package com.villejuif.fdjfrontparissportifs.network
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import com.villejuif.fdjfrontparissportifs.data.Team
+import com.villejuif.fdjfrontparissportifs.data.model.Team
 import com.villejuif.fdjfrontparissportifs.data.model.LeagueModel
 import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
@@ -29,7 +29,7 @@ interface TheSportsDBApiService {
 fun searchAllTeams(@Query("l") league:String):Deferred<LeagueModel>
 
     @GET("searchteams.php")
-    fun searchTeams(@Query("t") team:String):Deferred<Team>
+    fun searchTeams(@Query("t") team:String):Deferred<LeagueModel>
 }
 
 object TheSportsDBApi{

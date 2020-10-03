@@ -1,4 +1,4 @@
-package com.villejuif.fdjfrontparissportifs.data
+package com.villejuif.fdjfrontparissportifs.data.model
 
 data class Team(
     val idTeam: String? = null               ,

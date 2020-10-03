@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">FdjFrontParisSportifs</string>
+    <string name="team_banner_content_description">Team Banner Image</string>
 </resources>

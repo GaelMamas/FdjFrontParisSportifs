@@ -5,8 +5,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.villejuif.fdjfrontparissportifs.R
 import com.villejuif.fdjfrontparissportifs.databinding.FragmentMainBinding
 
 
@@ -40,13 +44,11 @@ class MainFragment:Fragment(), MainContract.View {
 
         setupNavigation()
 
+    }
+
+    override fun onStart() {
+        super.onStart()
         mPresenter.searchAllTeams("French Ligue 1")
-
-        /*GlobalScope.launch {
-            val team = TheSportsDBApi.retrofitService.searchTeams("Paris SG").await()
-
-            Log.d("MainFragment", "PSG Stadium: ${team.strStadiumDescription}")
-        }*/
     }
 
     override fun onTeams() {
@@ -54,11 +56,12 @@ class MainFragment:Fragment(), MainContract.View {
     }
 
     private fun setupNavigation() {
-        /*mPresenter.clickedEvent.observe(this.viewLifecycleOwner,
+        mPresenter.clickedTeam.observe(this.viewLifecycleOwner,
             Observer {
-                findNavController().navigate(R.id.action_earthEventsFragment_to_mapsFragment,
-                    bundleOf("eonetEventID" to it.id)
-                ) })*/
+                findNavController().navigate(
+                    R.id.action_mainFragment_to_detailsFragment,
+                    bundleOf("teamName" to it.strTeam, "idTeam" to it.idTeam)
+                ) })
     }
 
     private fun setupListAdapter() {
@@ -69,5 +72,10 @@ class MainFragment:Fragment(), MainContract.View {
         } else {
             Log.d(TAG,"MainPresenter not initialized when attempting to set up adapter.")
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.cleanUpJob()
     }
 }
