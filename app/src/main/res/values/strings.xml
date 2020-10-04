@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FdjFrontParisSportifs</string>
+    <string name="team_banner_content_description">Team Banner Image</string>
+    <string name="search_league_hint">Search by league</string>
+    <string name="search_league_content_desc">Search League Content Description</string>
+    <string name="handle_connection_content_desc">Handling Connection Content Description</string>
 </resources>
