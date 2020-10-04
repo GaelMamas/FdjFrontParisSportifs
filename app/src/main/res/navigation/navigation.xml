@@ -6,7 +6,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.villejuif.fdjfrontparissportifs.main.MainFragment"
-        android:label="MainFragment" >
+        android:label="">
         <action
             android:id="@+id/action_mainFragment_to_detailsFragment"
             app:destination="@id/detailsFragment" />
@@ -15,11 +15,16 @@
             app:argType="string"
             android:defaultValue="@null"
             app:nullable="true"/>
+        <argument
+            android:name="idTeam"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.villejuif.fdjfrontparissportifs.details.DetailsFragment"
-        android:label="DetailsFragment" >
+        android:label="{teamName}">
         <action
             android:id="@+id/action_detailsFragment_to_mainFragment"
             app:destination="@id/mainFragment"

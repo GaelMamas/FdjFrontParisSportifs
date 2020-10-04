@@ -1,5 +1,8 @@
 package com.villejuif.fdjfrontparissportifs.data.model
 
-import com.villejuif.fdjfrontparissportifs.data.Team
-
-data class LeagueModel(val teams:List<Team?>?)
+data class LeagueModel(
+    val idLeague: String? = "",
+    val strLeague: String?,
+    val strSport: String?,
+    val strLeagueAlternate: String?
+)
