@@ -21,7 +21,7 @@ class DetailsPresenter(val mView: DetailsContract.View): DetailsContract.Present
     override fun searchTeam(teamName: String, idTeam: String?) {
         launch {
             withContext(Dispatchers.Main) {
-                val teams = TheSportsDBApi.retrofitService.searchTeams(teamName).await().teams
+                val teams = TheSportsDBApi.retrofitService.searchTeamsAsync(teamName).await().teams
 
                 val searchedTeam = teams?.filter {
                     return@filter idTeam?.equals(it?.idTeam, ignoreCase = true) ?: false
