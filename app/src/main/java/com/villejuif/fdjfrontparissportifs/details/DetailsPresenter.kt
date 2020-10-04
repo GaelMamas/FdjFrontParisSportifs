@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.villejuif.fdjfrontparissportifs.data.model.Team
+import com.villejuif.fdjfrontparissportifs.network.DataRepository
+import com.villejuif.fdjfrontparissportifs.network.Result
 import com.villejuif.fdjfrontparissportifs.network.TheSportsDBApi
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
@@ -21,16 +23,27 @@ class DetailsPresenter(val mView: DetailsContract.View): DetailsContract.Present
     override fun searchTeam(teamName: String, idTeam: String?) {
         launch {
             withContext(Dispatchers.Main) {
-                val teams = TheSportsDBApi.retrofitService.searchTeamsAsync(teamName).await().teams
 
-                val searchedTeam = teams?.filter {
-                    return@filter idTeam?.equals(it?.idTeam, ignoreCase = true) ?: false
-                }?.first()
+                try {
+                    val result = DataRepository.searchTeamsAsync(teamName)
 
-                searchedTeam?.let {
-                    Log.d(TAG, "$teamName: ${it.strDescriptionFR}")
-                    _team.value = it
-                    mView.onTeam()
+                    if(result is Result.Success){
+                        val teams = result.data
+
+                        val searchedTeam = teams?.filter {
+                            return@filter idTeam?.equals(it?.idTeam, ignoreCase = true) ?: false
+                        }?.first()
+
+                        searchedTeam?.let {
+                            Log.d(TAG, "$teamName: ${it.strDescriptionFR}")
+                            _team.value = it
+                            mView.onTeam()
+                        }
+
+                    }else return@withContext
+
+                }catch (e: Exception){
+                    Log.e(TAG, "search a Team: ${e.message}")
                 }
 
             }
