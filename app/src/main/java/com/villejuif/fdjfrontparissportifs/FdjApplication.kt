@@ -1,17 +1,13 @@
 package com.villejuif.fdjfrontparissportifs
 
 import android.app.Application
-import com.villejuif.fdjfrontparissportifs.network.DataRepository
-import com.villejuif.fdjfrontparissportifs.network.RemoteDataProvider
-import com.villejuif.fdjfrontparissportifs.network.TheSportsDBApi
+import com.villejuif.fdjfrontparissportifs.depinjection.DaggerFdjAppComponent
+import com.villejuif.fdjfrontparissportifs.depinjection.FdjAppComponent
 
-class FdjApplication:Application() {
+class FdjApplication : Application() {
 
-    lateinit var mDataRepository: DataRepository
-
-    override fun onCreate() {
-        super.onCreate()
-
-        mDataRepository = DataRepository(RemoteDataProvider(TheSportsDBApi()))
+    val appComponent:FdjAppComponent by lazy {
+        DaggerFdjAppComponent.factory().create(applicationContext)
     }
+
 }

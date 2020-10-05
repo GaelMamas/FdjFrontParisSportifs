@@ -20,7 +20,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.villejuif.fdjfrontparissportifs.FdjApplication
 import com.villejuif.fdjfrontparissportifs.R
 import com.villejuif.fdjfrontparissportifs.databinding.ActivityMainBinding
+import com.villejuif.fdjfrontparissportifs.depinjection.MainComponent
 import com.villejuif.fdjfrontparissportifs.details.DetailsActivity
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(), MainContract.View {
@@ -32,12 +34,19 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private lateinit var listTeamsAdapter: MainAdapter
     private lateinit var autoCompleteAdapter: ArrayAdapter<String>
 
-    private lateinit var mPresenter: MainPresenter
+    lateinit var mainComponent: MainComponent
+
+    @Inject lateinit var mPresenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mPresenter = MainPresenter(this, (application as FdjApplication).mDataRepository)
+        mainComponent = (application as FdjApplication)
+            .appComponent.mainComponent().create()
+
+        mainComponent.inject(this)
+
+        mPresenter.initView(this)
 
         viewDataBinding = DataBindingUtil
             .setContentView(this, R.layout.activity_main)

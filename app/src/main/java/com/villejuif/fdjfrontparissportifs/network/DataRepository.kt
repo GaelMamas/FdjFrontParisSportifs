@@ -2,8 +2,11 @@ package com.villejuif.fdjfrontparissportifs.network
 
 import com.villejuif.fdjfrontparissportifs.data.model.LeagueModel
 import com.villejuif.fdjfrontparissportifs.data.model.Team
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class DataRepository(private val mRemoteDataProvider: RemoteDataProvider) {
+@Singleton
+class DataRepository @Inject constructor(private val mRemoteDataProvider: RemoteDataProvider) {
 
     suspend fun searchAllTeamsAsync(league:String):Result<List<Team?>?>{
         val result = mRemoteDataProvider.searchAllTeamsAsync(league)

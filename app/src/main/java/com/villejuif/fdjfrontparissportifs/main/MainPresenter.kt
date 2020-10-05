@@ -6,20 +6,24 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.villejuif.fdjfrontparissportifs.data.model.LeagueModel
 import com.villejuif.fdjfrontparissportifs.data.model.Team
+import com.villejuif.fdjfrontparissportifs.depinjection.AppScope
+import com.villejuif.fdjfrontparissportifs.details.DetailsContract
 import com.villejuif.fdjfrontparissportifs.network.DataRepository
 import com.villejuif.fdjfrontparissportifs.network.Result
 import kotlinx.coroutines.*
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 enum class TeamsStatus { LOADING, ERROR, EMPTY, DONE }
 
-class MainPresenter(
-    private val mView: MainContract.View,
-    private val mDataRepository: DataRepository
+@AppScope
+class MainPresenter @Inject constructor(private val mDataRepository: DataRepository
 ) : CoroutineScope,
     MainContract.Presenter {
 
     private val TAG = MainPresenter::class.java.simpleName
+
+    private lateinit var mView:MainContract.View
 
     private var job: Job = Job()
     override val coroutineContext: CoroutineContext = job + Dispatchers.IO
@@ -117,6 +121,10 @@ class MainPresenter(
 
             }
         }
+    }
+
+    fun initView(view: MainContract.View){
+        mView = view
     }
 
     companion object {

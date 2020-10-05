@@ -3,8 +3,11 @@ package com.villejuif.fdjfrontparissportifs.network
 import com.villejuif.fdjfrontparissportifs.data.model.LeagueModel
 import com.villejuif.fdjfrontparissportifs.data.model.Team
 import java.lang.Exception
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RemoteDataProvider(private val mTheSportsDBApi: TheSportsDBApi) {
+@Singleton
+class RemoteDataProvider @Inject constructor(private val mTheSportsDBApi: TheSportsDBApi) {
     suspend fun searchAllTeamsAsync(league: String): Result<List<Team?>?> {
         val result: Result<List<Team?>?>
         result = try {

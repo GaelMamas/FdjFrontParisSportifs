@@ -6,14 +6,16 @@ import androidx.lifecycle.MutableLiveData
 import com.villejuif.fdjfrontparissportifs.data.model.Team
 import com.villejuif.fdjfrontparissportifs.network.DataRepository
 import com.villejuif.fdjfrontparissportifs.network.Result
-import com.villejuif.fdjfrontparissportifs.network.TheSportsDBApi
 import kotlinx.coroutines.*
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
-class DetailsPresenter(private val mView: DetailsContract.View,
-private val mDataRepository: DataRepository): DetailsContract.Presenter, CoroutineScope{
+class DetailsPresenter @Inject constructor(private val mDataRepository: DataRepository
+) : DetailsContract.Presenter, CoroutineScope {
 
     private val TAG = DetailsPresenter::class.java.simpleName
+
+    private lateinit var mView:DetailsContract.View
 
     private var job: Job = Job()
     override val coroutineContext: CoroutineContext = job + Dispatchers.IO
@@ -28,7 +30,7 @@ private val mDataRepository: DataRepository): DetailsContract.Presenter, Corouti
                 try {
                     val result = mDataRepository.searchTeamsAsync(teamName)
 
-                    if(result is Result.Success){
+                    if (result is Result.Success) {
                         val teams = result.data
 
                         val searchedTeam = teams?.filter {
@@ -41,14 +43,18 @@ private val mDataRepository: DataRepository): DetailsContract.Presenter, Corouti
                             mView.onTeam()
                         }
 
-                    }else return@withContext
+                    } else return@withContext
 
-                }catch (e: Exception){
+                } catch (e: Exception) {
                     Log.e(TAG, "search a Team: ${e.message}")
                 }
 
             }
         }
+    }
+
+    fun initView(view:DetailsContract.View){
+        mView = view
     }
 
     override fun cleanUpJob() {
