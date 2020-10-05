@@ -10,7 +10,8 @@ import com.villejuif.fdjfrontparissportifs.network.TheSportsDBApi
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-class DetailsPresenter(val mView: DetailsContract.View): DetailsContract.Presenter, CoroutineScope{
+class DetailsPresenter(private val mView: DetailsContract.View,
+private val mDataRepository: DataRepository): DetailsContract.Presenter, CoroutineScope{
 
     private val TAG = DetailsPresenter::class.java.simpleName
 
@@ -25,7 +26,7 @@ class DetailsPresenter(val mView: DetailsContract.View): DetailsContract.Present
             withContext(Dispatchers.Main) {
 
                 try {
-                    val result = DataRepository.searchTeamsAsync(teamName)
+                    val result = mDataRepository.searchTeamsAsync(teamName)
 
                     if(result is Result.Success){
                         val teams = result.data

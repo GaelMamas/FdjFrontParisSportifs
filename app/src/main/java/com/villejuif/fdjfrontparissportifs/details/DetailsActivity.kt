@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.villejuif.fdjfrontparissportifs.FdjApplication
 import com.villejuif.fdjfrontparissportifs.R
 import com.villejuif.fdjfrontparissportifs.data.model.Team
 import com.villejuif.fdjfrontparissportifs.databinding.ActivityDetailsBinding
@@ -17,7 +18,7 @@ class DetailsActivity : AppCompatActivity(), DetailsContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mPresenter = DetailsPresenter(this)
+        mPresenter = DetailsPresenter(this, (application as FdjApplication).mDataRepository)
 
         viewDataBinding = DataBindingUtil
             .setContentView(this, R.layout.activity_details)

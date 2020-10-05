@@ -13,7 +13,9 @@ import kotlin.coroutines.CoroutineContext
 
 enum class TeamsStatus {LOADING, ERROR, EMPTY, DONE}
 
-class MainPresenter constructor(val mView: MainContract.View) : CoroutineScope,
+class MainPresenter (
+    private val mView: MainContract.View,
+    private val mDataRepository: DataRepository) : CoroutineScope,
     MainContract.Presenter {
 
     private val TAG = MainPresenter::class.java.simpleName
@@ -57,7 +59,7 @@ class MainPresenter constructor(val mView: MainContract.View) : CoroutineScope,
             withContext(Dispatchers.Main) {
 
                 try {
-                    val result = DataRepository.searchAllTeamsAsync(filter)
+                    val result = mDataRepository.searchAllTeamsAsync(filter)
 
                     if(result is Result.Success){
                         _teams.value = result.data
@@ -91,7 +93,7 @@ class MainPresenter constructor(val mView: MainContract.View) : CoroutineScope,
             withContext(Dispatchers.IO){
 
                 try {
-                    val result = DataRepository.getAllLeaguesAsync()
+                    val result = mDataRepository.getAllLeaguesAsync()
 
                     if(result is Result.Success){
 

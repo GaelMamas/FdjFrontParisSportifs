@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.villejuif.fdjfrontparissportifs.FdjApplication
 import com.villejuif.fdjfrontparissportifs.R
 import com.villejuif.fdjfrontparissportifs.databinding.ActivityMainBinding
 import com.villejuif.fdjfrontparissportifs.details.DetailsActivity
@@ -34,7 +35,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mPresenter = MainPresenter(this)
+        mPresenter = MainPresenter(this, (application as FdjApplication).mDataRepository)
 
         viewDataBinding = DataBindingUtil
             .setContentView(this, R.layout.activity_main)
