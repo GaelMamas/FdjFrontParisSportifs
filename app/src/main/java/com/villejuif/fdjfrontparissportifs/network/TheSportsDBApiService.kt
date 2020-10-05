@@ -35,6 +35,6 @@ interface TheSportsDBApiService {
     fun getAllLeaguesAsync(): Deferred<LeaguesPoolModel>
 }
 
-object TheSportsDBApi {
+class TheSportsDBApi {
     val retrofitService: TheSportsDBApiService by lazy { retrofit.create(TheSportsDBApiService::class.java) }
 }
