@@ -10,6 +10,8 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
@@ -49,6 +51,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 viewDataBinding.mainpresenter = mPresenter
                 setupListAdapter()
             })
+
+        mPresenter.status.observe(this, Observer {
+            manageErrorStatus(it)
+        })
 
         setupPermissions()
 
@@ -139,6 +145,28 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 ), 1
             )
         }
+    }
+
+    private fun manageErrorStatus(status: TeamsStatus?) {
+        when (status) {
+            TeamsStatus.LOADING -> {
+                setImage(R.drawable.ic_loading)
+            }
+            TeamsStatus.ERROR -> {
+                setImage(R.drawable.ic_connection_error)
+            }
+            TeamsStatus.EMPTY -> {
+                setImage(R.drawable.ic_photo_placeholder)
+            }
+            else -> {
+                viewDataBinding.statusImage.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun setImage(@DrawableRes iconId:Int){
+        viewDataBinding.statusImage.visibility = View.VISIBLE
+        viewDataBinding.statusImage.setImageResource(iconId)
     }
 
 }

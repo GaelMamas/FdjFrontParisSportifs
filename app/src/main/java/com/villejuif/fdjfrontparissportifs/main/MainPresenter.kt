@@ -11,11 +11,12 @@ import com.villejuif.fdjfrontparissportifs.network.Result
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-enum class TeamsStatus {LOADING, ERROR, EMPTY, DONE}
+enum class TeamsStatus { LOADING, ERROR, EMPTY, DONE }
 
-class MainPresenter (
+class MainPresenter(
     private val mView: MainContract.View,
-    private val mDataRepository: DataRepository) : CoroutineScope,
+    private val mDataRepository: DataRepository
+) : CoroutineScope,
     MainContract.Presenter {
 
     private val TAG = MainPresenter::class.java.simpleName
@@ -28,8 +29,8 @@ class MainPresenter (
     private val _leaguesNames: LiveData<List<String>> =
         Transformations.map(_leagues) { leagues ->
 
-            if(leagues.isNullOrEmpty())  listOf()
-            else{
+            if (leagues.isNullOrEmpty()) listOf()
+            else {
                 leagues.asSequence().filter {
                     SOCCER.equals(it?.strSport, ignoreCase = true)
                 }.mapNotNull { it?.strLeague }.toList()
@@ -61,15 +62,22 @@ class MainPresenter (
                 try {
                     val result = mDataRepository.searchAllTeamsAsync(filter)
 
-                    if(result is Result.Success){
+                    if (result is Result.Success) {
                         _teams.value = result.data
                         Log.d(TAG, "$filter Teams: ${result.data?.size}")
                     }
 
-                    _status.value = if(_teams.value?.size == 0) TeamsStatus.EMPTY
-                    else TeamsStatus.DONE
+                    _status.value = if (_teams.value?.size == 0) {
+                        TeamsStatus.EMPTY
+                    } else {
+                        TeamsStatus.DONE
+                    }
 
-                }catch (e: Exception){
+                    if (_leagues.value.isNullOrEmpty()) {
+                        getAllTheLeagueForAutoComplete()
+                    }
+
+                } catch (e: Exception) {
                     Log.e(TAG, "searchAllTeams: ${e.message}")
 
                     _status.value = TeamsStatus.ERROR
@@ -90,19 +98,19 @@ class MainPresenter (
 
     private fun getAllTheLeagueForAutoComplete() {
         launch {
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
 
                 try {
                     val result = mDataRepository.getAllLeaguesAsync()
 
-                    if(result is Result.Success){
+                    if (result is Result.Success) {
 
                         _leagues.postValue(result.data)
                         Log.d(TAG, "All the leagues: ${result.data?.size}")
 
-                    }else return@withContext
+                    } else return@withContext
 
-                }catch (e: Exception){
+                } catch (e: Exception) {
                     _status.postValue(TeamsStatus.ERROR)
                     Log.e(TAG, "All the leagues: ${e.message}")
                 }

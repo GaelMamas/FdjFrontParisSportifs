@@ -68,9 +68,8 @@ dependencies {
     api "com.google.dagger:dagger:$version_dagger"
     annotationProcessor "com.google.dagger:dagger-compiler:$version_dagger"
 
-    api "com.google.dagger:dagger-android:$version_dagger"
-    api "com.google.dagger:dagger-android-support:$version_dagger" // if you use the support libraries
-    annotationProcessor "com.google.dagger:dagger-android-processor:$version_dagger"
+    implementation "com.google.dagger:dagger:$version_dagger"
+    kapt "com.google.dagger:dagger-compiler:$version_dagger"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
