@@ -64,6 +64,13 @@ dependencies {
     //Glide
     implementation "com.github.bumptech.glide:glide:$version_glide"
 
+    //dagger
+    api "com.google.dagger:dagger:$version_dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$version_dagger"
+
+    implementation "com.google.dagger:dagger:$version_dagger"
+    kapt "com.google.dagger:dagger-compiler:$version_dagger"
+
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'

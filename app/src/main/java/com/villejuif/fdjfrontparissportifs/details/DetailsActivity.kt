@@ -4,20 +4,29 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
+import com.villejuif.fdjfrontparissportifs.FdjApplication
 import com.villejuif.fdjfrontparissportifs.R
 import com.villejuif.fdjfrontparissportifs.data.model.Team
 import com.villejuif.fdjfrontparissportifs.databinding.ActivityDetailsBinding
+import com.villejuif.fdjfrontparissportifs.depinjection.DetailsComponent
+import javax.inject.Inject
 
 class DetailsActivity : AppCompatActivity(), DetailsContract.View {
 
-    private lateinit var mPresenter: DetailsPresenter
+    lateinit var detailsComponent: DetailsComponent
+
+    @Inject lateinit var mPresenter: DetailsPresenter
 
     private lateinit var viewDataBinding: ActivityDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mPresenter = DetailsPresenter(this)
+        detailsComponent = (application as FdjApplication).appComponent.detailsComponent().create()
+
+        detailsComponent.inject(this)
+
+        mPresenter.initView(this)
 
         viewDataBinding = DataBindingUtil
             .setContentView(this, R.layout.activity_details)

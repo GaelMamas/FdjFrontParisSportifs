@@ -10,14 +10,19 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.villejuif.fdjfrontparissportifs.FdjApplication
 import com.villejuif.fdjfrontparissportifs.R
 import com.villejuif.fdjfrontparissportifs.databinding.ActivityMainBinding
+import com.villejuif.fdjfrontparissportifs.depinjection.MainComponent
 import com.villejuif.fdjfrontparissportifs.details.DetailsActivity
+import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(), MainContract.View {
@@ -29,12 +34,19 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     private lateinit var listTeamsAdapter: MainAdapter
     private lateinit var autoCompleteAdapter: ArrayAdapter<String>
 
-    private lateinit var mPresenter: MainPresenter
+    lateinit var mainComponent: MainComponent
+
+    @Inject lateinit var mPresenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mPresenter = MainPresenter(this)
+        mainComponent = (application as FdjApplication)
+            .appComponent.mainComponent().create()
+
+        mainComponent.inject(this)
+
+        mPresenter.initView(this)
 
         viewDataBinding = DataBindingUtil
             .setContentView(this, R.layout.activity_main)
@@ -48,6 +60,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 viewDataBinding.mainpresenter = mPresenter
                 setupListAdapter()
             })
+
+        mPresenter.status.observe(this, Observer {
+            manageErrorStatus(it)
+        })
 
         setupPermissions()
 
@@ -138,6 +154,28 @@ class MainActivity : AppCompatActivity(), MainContract.View {
                 ), 1
             )
         }
+    }
+
+    private fun manageErrorStatus(status: TeamsStatus?) {
+        when (status) {
+            TeamsStatus.LOADING -> {
+                setImage(R.drawable.ic_loading)
+            }
+            TeamsStatus.ERROR -> {
+                setImage(R.drawable.ic_connection_error)
+            }
+            TeamsStatus.EMPTY -> {
+                setImage(R.drawable.ic_photo_placeholder)
+            }
+            else -> {
+                viewDataBinding.statusImage.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun setImage(@DrawableRes iconId:Int){
+        viewDataBinding.statusImage.visibility = View.VISIBLE
+        viewDataBinding.statusImage.setImageResource(iconId)
     }
 
 }

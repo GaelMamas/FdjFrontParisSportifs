@@ -2,11 +2,14 @@ package com.villejuif.fdjfrontparissportifs.network
 
 import com.villejuif.fdjfrontparissportifs.data.model.LeagueModel
 import com.villejuif.fdjfrontparissportifs.data.model.Team
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object DataRepository {
+@Singleton
+class DataRepository @Inject constructor(private val mRemoteDataProvider: RemoteDataProvider) {
 
     suspend fun searchAllTeamsAsync(league:String):Result<List<Team?>?>{
-        val result = RemoteDataProvider.searchAllTeamsAsync(league)
+        val result = mRemoteDataProvider.searchAllTeamsAsync(league)
 
          if(result is Result.Error)
             throw result.exception
@@ -15,7 +18,7 @@ object DataRepository {
     }
 
     suspend fun searchTeamsAsync(team:String):Result<List<Team?>?>{
-        val result = RemoteDataProvider.searchTeamsAsync(team)
+        val result = mRemoteDataProvider.searchTeamsAsync(team)
 
         if(result is Result.Error)
             throw result.exception
@@ -24,7 +27,7 @@ object DataRepository {
     }
 
     suspend fun getAllLeaguesAsync():Result<List<LeagueModel?>?>{
-        val result = RemoteDataProvider.getAllLeaguesAsync()
+        val result = mRemoteDataProvider.getAllLeaguesAsync()
 
         if(result is Result.Error)
             throw result.exception

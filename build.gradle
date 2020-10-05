@@ -11,6 +11,7 @@ buildscript {
         navigationVersion = '2.3.0-alpha06'
         version_gson = '2.8.6'
         version_glide = '3.7.0'
+        version_dagger ='2.27'
     }
     repositories {
         google()
