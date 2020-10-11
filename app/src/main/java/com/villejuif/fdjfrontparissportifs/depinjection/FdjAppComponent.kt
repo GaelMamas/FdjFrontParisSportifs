@@ -1,7 +1,6 @@
 package com.villejuif.fdjfrontparissportifs.depinjection
 
 import android.content.Context
-import com.villejuif.fdjfrontparissportifs.main.MainActivity
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -11,11 +10,11 @@ import javax.inject.Singleton
 interface FdjAppComponent {
 
     @Component.Factory
-    interface Factory{
-        fun create(@BindsInstance context: Context):FdjAppComponent
+    interface Factory {
+        fun create(@BindsInstance context: Context): FdjAppComponent
     }
 
-    fun mainComponent():MainComponent.Factory
+    fun mainComponent(): MainComponent.Factory
 
-    fun detailsComponent():DetailsComponent.Factory
+    fun detailsComponent(): DetailsComponent.Factory
 }

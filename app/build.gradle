@@ -28,6 +28,10 @@ android {
     buildFeatures {
         dataBinding true
     }
+
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -75,15 +79,13 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$courtines_test"
     testImplementation "com.google.truth:truth:$truthVersion"
     testImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+    testImplementation "androidx.test.ext:junit:$androidXTestExtKotlinRunnerVersion"
+    testImplementation "androidx.test:core-ktx:$androidXTestCoreVersion"
 
 
-    androidTestImplementation "junit:junit:$junitVersion"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
-    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$dexMakerVersion"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$courtines_test"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espressoVersion"
-    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
-    androidTestImplementation "androidx.arch.core:core-testing:$archTestingVersion"
+    testImplementation "junit:junit:$junitVersion"
+    testImplementation 'androidx.test.ext:junit:1.1.2'
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "com.linkedin.dexmaker:dexmaker-mockito:$dexMakerVersion"
 
 }

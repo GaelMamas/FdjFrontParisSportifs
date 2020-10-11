@@ -6,9 +6,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DataRepository @Inject constructor(private val mRemoteDataProvider: RemoteDataProvider) {
+open class DataRepository @Inject constructor(private val mRemoteDataProvider: BaseDataProvider) {
 
-    suspend fun searchAllTeamsAsync(league:String):Result<List<Team?>?>{
+    open suspend fun searchAllTeamsAsync(league:String):Result<List<Team?>?>{
         val result = mRemoteDataProvider.searchAllTeamsAsync(league)
 
          if(result is Result.Error)
@@ -17,7 +17,7 @@ class DataRepository @Inject constructor(private val mRemoteDataProvider: Remote
         return result
     }
 
-    suspend fun searchTeamsAsync(team:String):Result<List<Team?>?>{
+    open suspend fun searchTeamsAsync(team:String):Result<List<Team?>?>{
         val result = mRemoteDataProvider.searchTeamsAsync(team)
 
         if(result is Result.Error)
@@ -26,7 +26,7 @@ class DataRepository @Inject constructor(private val mRemoteDataProvider: Remote
         return result
     }
 
-    suspend fun getAllLeaguesAsync():Result<List<LeagueModel?>?>{
+    open suspend fun getAllLeaguesAsync():Result<List<LeagueModel?>?>{
         val result = mRemoteDataProvider.getAllLeaguesAsync()
 
         if(result is Result.Error)
